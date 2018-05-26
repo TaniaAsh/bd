@@ -1,0 +1,479 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_datalakeprojvm_name": {
+            "defaultValue": "datalakeprojvm",
+            "type": "String"
+        },
+        "virtualNetworks_datalakeproj_vnet_name": {
+            "defaultValue": "datalakeproj-vnet",
+            "type": "String"
+        },
+        "networkInterfaces_datalakeprojvm796_name": {
+            "defaultValue": "datalakeprojvm796",
+            "type": "String"
+        },
+        "publicIPAddresses_datalakeprojvm_ip_name": {
+            "defaultValue": "datalakeprojvm-ip",
+            "type": "String"
+        },
+        "storageAccounts_datalakeprojstorage_name": {
+            "defaultValue": "datalakeprojstorage",
+            "type": "String"
+        },
+        "networkSecurityGroups_datalakeprojvm_nsg_name": {
+            "defaultValue": "datalakeprojvm-nsg",
+            "type": "String"
+        },
+        "subnets_default_name": {
+            "defaultValue": "default",
+            "type": "String"
+        },
+        "securityRules_default_allow_rdp_name": {
+            "defaultValue": "default-allow-rdp",
+            "type": "String"
+        },
+        "virtualMachines_datalakeprojvm_id": {
+            "defaultValue": "/subscriptions/f43108ec-f2eb-4cb0-a6b0-37d635f13dfd/resourceGroups/datalakeproj/providers/Microsoft.Compute/disks/datalakeprojvm_OsDisk_1_0feea8f8397e4a2c9f0104c3107c76f2",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "comments": "Generalized from resource: '/subscriptions/f43108ec-f2eb-4cb0-a6b0-37d635f13dfd/resourceGroups/datalakeproj/providers/Microsoft.Compute/virtualMachines/datalakeprojvm'.",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachines_datalakeprojvm_name')]",
+            "apiVersion": "2017-12-01",
+            "location": "uksouth",
+            "tags": {
+                "alwaysOFF": "$false",
+                "alwaysON": "$false",
+                "PatchingSchedule": "6/02:00->04:00",
+                "Schedule": "8:00->20:00/8:00->20:00/8:00->20:00/8:00->20:00/8:00->20:00/-/-",
+                "TimeZone": "0",
+                "Description": "none",
+                "Environment": "Cloud Enablement",
+                "KillDate": "none",
+                "Owner": "none"
+            },
+            "scale": null,
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_B1ms"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2016-Datacenter",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Windows",
+                        "name": "[concat(parameters('virtualMachines_datalakeprojvm_name'),'_OsDisk_1_0feea8f8397e4a2c9f0104c3107c76f2')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": "Premium_LRS",
+                            "id": "[parameters('virtualMachines_datalakeprojvm_id')]"
+                        },
+                        "diskSizeGB": 127
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_datalakeprojvm_name')]",
+                    "adminUsername": "dladmin",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": true
+                    },
+                    "secrets": []
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_datalakeprojvm796_name'))]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true,
+                        "storageUri": "[concat('https', '://', parameters('storageAccounts_datalakeprojstorage_name'), '.blob.core.windows.net', '/')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_datalakeprojvm796_name'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_datalakeprojstorage_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/f43108ec-f2eb-4cb0-a6b0-37d635f13dfd/resourceGroups/datalakeproj/providers/Microsoft.Network/networkInterfaces/datalakeprojvm796'.",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_datalakeprojvm796_name')]",
+            "apiVersion": "2018-02-01",
+            "location": "uksouth",
+            "tags": {
+                "Description": "none",
+                "Environment": "Cloud Enablement",
+                "KillDate": "none",
+                "Owner": "none"
+            },
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "bfae0ddf-c5d8-4ea0-a5a9-ea314e56e8bb",
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "etag": "W/\"899f9d50-5362-41f3-869e-fe21922fdb90\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "privateIPAddress": "10.3.9.4",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_datalakeprojvm_ip_name'))]"
+                            },
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_datalakeproj_vnet_name'), parameters('subnets_default_name'))]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4"
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": [],
+                    "appliedDnsServers": [],
+                    "internalDomainNameSuffix": "y2sklz4qnuyehmjbfkdmfpf1uc.zx.internal.cloudapp.net"
+                },
+                "macAddress": "00-22-48-07-EE-3A",
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_datalakeprojvm_nsg_name'))]"
+                },
+                "primary": true,
+                "virtualMachine": {
+                    "id": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_datalakeprojvm_name'))]"
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_datalakeprojvm_ip_name'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_datalakeproj_vnet_name'), parameters('subnets_default_name'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_datalakeprojvm_nsg_name'))]",
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_datalakeprojvm_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/f43108ec-f2eb-4cb0-a6b0-37d635f13dfd/resourceGroups/datalakeproj/providers/Microsoft.Network/networkSecurityGroups/datalakeprojvm-nsg'.",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[parameters('networkSecurityGroups_datalakeprojvm_nsg_name')]",
+            "apiVersion": "2018-02-01",
+            "location": "uksouth",
+            "tags": {
+                "Description": "none",
+                "Environment": "Cloud Enablement",
+                "KillDate": "none",
+                "Owner": "none"
+            },
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "e0e3fe48-8e59-4ed1-9659-2d0df858fe62",
+                "securityRules": [
+                    {
+                        "name": "default-allow-rdp",
+                        "etag": "W/\"91d9bbb1-86b3-41a0-95a2-88db67452649\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1000,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    }
+                ],
+                "defaultSecurityRules": [
+                    {
+                        "name": "AllowVnetInBound",
+                        "etag": "W/\"91d9bbb1-86b3-41a0-95a2-88db67452649\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow inbound traffic from all VMs in VNET",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "VirtualNetwork",
+                            "destinationAddressPrefix": "VirtualNetwork",
+                            "access": "Allow",
+                            "priority": 65000,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowAzureLoadBalancerInBound",
+                        "etag": "W/\"91d9bbb1-86b3-41a0-95a2-88db67452649\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow inbound traffic from azure load balancer",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "AzureLoadBalancer",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 65001,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "DenyAllInBound",
+                        "etag": "W/\"91d9bbb1-86b3-41a0-95a2-88db67452649\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Deny all inbound traffic",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Deny",
+                            "priority": 65500,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowVnetOutBound",
+                        "etag": "W/\"91d9bbb1-86b3-41a0-95a2-88db67452649\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow outbound traffic from all VMs to all VMs in VNET",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "VirtualNetwork",
+                            "destinationAddressPrefix": "VirtualNetwork",
+                            "access": "Allow",
+                            "priority": 65000,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowInternetOutBound",
+                        "etag": "W/\"91d9bbb1-86b3-41a0-95a2-88db67452649\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow outbound traffic from all VMs to Internet",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "Internet",
+                            "access": "Allow",
+                            "priority": 65001,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "DenyAllOutBound",
+                        "etag": "W/\"91d9bbb1-86b3-41a0-95a2-88db67452649\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Deny all outbound traffic",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Deny",
+                            "priority": 65500,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    }
+                ]
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/f43108ec-f2eb-4cb0-a6b0-37d635f13dfd/resourceGroups/datalakeproj/providers/Microsoft.Network/publicIPAddresses/datalakeprojvm-ip'.",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "sku": {
+                "name": "Basic",
+                "tier": "Regional"
+            },
+            "name": "[parameters('publicIPAddresses_datalakeprojvm_ip_name')]",
+            "apiVersion": "2018-02-01",
+            "location": "uksouth",
+            "tags": {
+                "Description": "none",
+                "Environment": "Cloud Enablement",
+                "KillDate": "none",
+                "Owner": "none"
+            },
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "51280d98-348e-4c0b-8017-a5483f6ac8b6",
+                "ipAddress": "51.140.141.199",
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4,
+                "ipTags": []
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/f43108ec-f2eb-4cb0-a6b0-37d635f13dfd/resourceGroups/datalakeproj/providers/Microsoft.Network/virtualNetworks/datalakeproj-vnet'.",
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[parameters('virtualNetworks_datalakeproj_vnet_name')]",
+            "apiVersion": "2018-02-01",
+            "location": "uksouth",
+            "tags": {
+                "Description": "none",
+                "Environment": "Cloud Enablement",
+                "KillDate": "none",
+                "Owner": "none"
+            },
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "e7a524c7-6dd0-4330-b121-2a86c2bcbba2",
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.3.9.0/24"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "default",
+                        "etag": "W/\"d885b680-ce9a-4f41-87c6-828bf3f1ed58\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "addressPrefix": "10.3.9.0/24"
+                        }
+                    }
+                ],
+                "virtualNetworkPeerings": [],
+                "enableDdosProtection": false,
+                "enableVmProtection": false
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/f43108ec-f2eb-4cb0-a6b0-37d635f13dfd/resourceGroups/datalakeproj/providers/Microsoft.Storage/storageAccounts/datalakeprojstorage'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_datalakeprojstorage_name')]",
+            "apiVersion": "2017-10-01",
+            "location": "uksouth",
+            "tags": {
+                "Description": "none",
+                "Environment": "Cloud Enablement",
+                "KillDate": "none",
+                "Owner": "none"
+            },
+            "scale": null,
+            "properties": {
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "virtualNetworkRules": [],
+                    "ipRules": [],
+                    "defaultAction": "Allow"
+                },
+                "supportsHttpsTrafficOnly": false,
+                "encryption": {
+                    "services": {
+                        "file": {
+                            "enabled": true
+                        },
+                        "blob": {
+                            "enabled": true
+                        }
+                    },
+                    "keySource": "Microsoft.Storage"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/f43108ec-f2eb-4cb0-a6b0-37d635f13dfd/resourceGroups/datalakeproj/providers/Microsoft.Network/networkSecurityGroups/datalakeprojvm-nsg/securityRules/default-allow-rdp'.",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "name": "[concat(parameters('networkSecurityGroups_datalakeprojvm_nsg_name'), '/', parameters('securityRules_default_allow_rdp_name'))]",
+            "apiVersion": "2018-02-01",
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "TCP",
+                "sourcePortRange": "*",
+                "destinationPortRange": "3389",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 1000,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": []
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_datalakeprojvm_nsg_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/f43108ec-f2eb-4cb0-a6b0-37d635f13dfd/resourceGroups/datalakeproj/providers/Microsoft.Network/virtualNetworks/datalakeproj-vnet/subnets/default'.",
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "name": "[concat(parameters('virtualNetworks_datalakeproj_vnet_name'), '/', parameters('subnets_default_name'))]",
+            "apiVersion": "2018-02-01",
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "addressPrefix": "10.3.9.0/24"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_datalakeproj_vnet_name'))]"
+            ]
+        }
+    ]
+}
