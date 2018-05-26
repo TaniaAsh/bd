@@ -74,7 +74,7 @@ $vmname = "datalakeprojvm" `
 
 $templatePath = "vmtemplate.json"
 $parametersPath = "vmparam.json"
-#dladmin-Gibkolomaz7!
+
 
 # Set the name of the storage account and the SKU name. 
 $storageAccountName = "datalakeprojstorage"
@@ -136,5 +136,5 @@ if(Test-Path $parametersPath) {
 # Cleanup section
 # 
 #******************************************************************************
-
+#dladmin-Gibkolomaz7!
 Remove-AzureRmResourceGroup -Name $rgname
